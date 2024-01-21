@@ -34,10 +34,30 @@ pub mod nukem_anchor {
     pub fn fire(ctx: Context<Fire>) -> ProgramResult {
         // TODO: hacer un pseudorand() 
         // idea: input -> concat time con blockhash o algo asi
+        let rand = rand_gen();
+
+        let selected_account = select_account(rand);
+
+        if rand % 2 == 0 {
+            selected_account.staked_amount -= DAMAGE_UNITS;
+        } else {
+            sender_account.staked_amount -= DAMAGE_UNITS;
+        }
+
         Ok(())
     }
-}
 
+}
+fn select_account(num: u64) -> StakeAccount {
+    
+}
+// helper functions for pseudorandomness
+fn rand_gen() -> u64 {
+    // agarro el blockchash 
+    let blockhash_bytes = blockhash.to_bytes():
+    // agarro los primeros 8 bytes y los meto en un 8bytes to u64
+    return u64::from_le_bytes(blockhash_bytes[0..8].try_into().unwrap());
+}
 
 #[account]
 pub struct StakeAccount {
